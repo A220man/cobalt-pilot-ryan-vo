@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "cobalt-pilot-ryan-vo",
+  "owner": "A220man",
+  "email": "ryandtvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: cobalt-pilot-ryan-vo",
+  "workflows": [
+    "Discover and search plugins for Claude Cowork with pagination and filtering",
+    "Browse plugin skills with stability lifecycle (experimental/stable/deprecated) badges and filtering",
+    "Sync plugin data from upstream GitHub repository for offline access"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}

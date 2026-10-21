@@ -1,0 +1,13 @@
+# Frontend Docker ignore
+node_modules/
+dist/
+build/
+.env
+.env.*
+*.log
+npm-debug.log*
+.DS_Store
+*.local
+.vite/
+coverage/
+.nyc_output/
