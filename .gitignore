@@ -1,0 +1,68 @@
+# Dependencies
+.venv/
+venv/
+env/
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+coverage/
+.nyc_output/
+
+# Type checking
+.mypy_cache/
+.ruff_cache/
+.tsbuildinfo
+
+# Docker
+.docker/
+
+# Local agent metadata
+.antigravitycli/
+.omp/
+
+# Vite
+*.local
+
+# Misc
+*.tgz
+.cache/
