@@ -213,6 +213,7 @@ class PluginSyncService:
         connectors = []
         for name, config in mcp_json.get("mcpServers", {}).items():
             connectors.append({
+                "slug": name.lower().replace(" ", "-"),
                 "name": name,
                 "type": "mcp",
                 "config": config,
@@ -263,14 +264,15 @@ class PluginSyncService:
 
     async def _upsert_connector(self, plugin_id: int, conn_data: Dict[str, Any]) -> Connector:
         """Insert or update a connector."""
-        stmt = select(Connector).where(Connector.plugin_id == plugin_id, Connector.name == conn_data["name"])
+        stmt = select(Connector).where(Connector.plugin_id == plugin_id, Connector.slug == conn_data["slug"])
         result = await self.db.execute(stmt)
         conn = result.scalar_one_or_none()
 
         if not conn:
-            conn = Connector(plugin_id=plugin_id, name=conn_data["name"])
+            conn = Connector(plugin_id=plugin_id, slug=conn_data["slug"])
             self.db.add(conn)
 
+        conn.name = conn_data["name"]
         conn.type = conn_data["type"]
         conn.config = conn_data["config"]
         conn.description = conn_data["description"]

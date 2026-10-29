@@ -48,12 +48,14 @@ class Skill(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     plugin_id = Column(Integer, ForeignKey("plugins.id", ondelete="CASCADE"), nullable=False, index=True)
-    slug = Column(String(100), nullable=False)
+    slug = Column(String(200), nullable=False, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text, nullable=True)
     stability = Column(SQLEnum(StabilityLevel), default=StabilityLevel.EXPERIMENTAL, nullable=False)
+    category = Column(String(100), nullable=True)
+    readme_content = Column(Text, nullable=True)
+    frontmatter = Column(JSON, nullable=True)
     markdown_content = Column(Text, nullable=True)
-    frontmatter = Column(JSON, nullable=True)  # Parsed YAML frontmatter
     file_path = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
@@ -62,7 +64,8 @@ class Skill(Base):
 
     __table_args__ = (
         Index("ix_skills_plugin_stability", "plugin_id", "stability"),
-        Index("ix_skills_slug", "slug"),
+        Index("ix_skills_name", "name"),
+        Index("ix_skills_plugin_slug", "plugin_id", "slug", unique=True),
     )
 
 
@@ -71,9 +74,10 @@ class Command(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     plugin_id = Column(Integer, ForeignKey("plugins.id", ondelete="CASCADE"), nullable=False, index=True)
-    slug = Column(String(100), nullable=False)
+    slug = Column(String(200), nullable=False, index=True)
     name = Column(String(200), nullable=False)
     description = Column(Text, nullable=True)
+    usage = Column(Text, nullable=True)
     markdown_content = Column(Text, nullable=True)
     file_path = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
@@ -82,7 +86,9 @@ class Command(Base):
     plugin = relationship("Plugin", back_populates="commands")
 
     __table_args__ = (
-        Index("ix_commands_plugin_slug", "plugin_id", "slug"),
+        Index("ix_commands_plugin", "plugin_id"),
+        Index("ix_commands_name", "name"),
+        Index("ix_commands_plugin_slug", "plugin_id", "slug", unique=True),
     )
 
 
@@ -91,10 +97,11 @@ class Connector(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     plugin_id = Column(Integer, ForeignKey("plugins.id", ondelete="CASCADE"), nullable=False, index=True)
+    slug = Column(String(200), nullable=False, index=True, default="")
     name = Column(String(200), nullable=False)
-    type = Column(String(100), nullable=True)  # mcp, api, etc.
-    config = Column(JSON, nullable=True)  # MCP config or API config
+    type = Column(String(100), nullable=True)
     description = Column(Text, nullable=True)
+    config = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
 
@@ -102,6 +109,8 @@ class Connector(Base):
 
     __table_args__ = (
         Index("ix_connectors_plugin", "plugin_id"),
+        Index("ix_connectors_name", "name"),
+        Index("ix_connectors_plugin_slug", "plugin_id", "slug", unique=True),
     )
 
 
@@ -117,3 +126,18 @@ class SyncLog(Base):
     error_message = Column(Text, nullable=True)
     started_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     completed_at = Column(DateTime, nullable=True)
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(String(100), primary_key=True, index=True)  # Keycloak sub
+    email = Column(String(255), unique=True, index=True, nullable=True)
+    username = Column(String(100), unique=True, index=True, nullable=True)
+    full_name = Column(String(200), nullable=True)
+    roles = Column(JSON, default=list, nullable=False)  # List of roles from Keycloak
+    is_active = Column(Boolean, default=True, nullable=False)
+    is_superuser = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
+    last_login_at = Column(DateTime, nullable=True)

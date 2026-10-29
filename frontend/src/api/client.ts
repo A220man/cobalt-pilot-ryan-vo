@@ -1,3 +1,4 @@
+
 // API client
 import axios, { AxiosInstance, AxiosError } from 'axios'
 import type {
@@ -11,7 +12,13 @@ import type {
   PluginType,
 } from '../types'
 
-const API_BASE = (import.meta as any).env?.VITE_API_BASE || '/api'
+const API_BASE = (import.meta as unknown).env?.VITE_API_BASE || '/api'
+
+let authToken: string | null = null
+
+export function setAuthToken(token: string | null) {
+  authToken = token
+}
 
 class ApiClient {
   private client: AxiosInstance
@@ -25,9 +32,16 @@ class ApiClient {
       },
     })
 
+    this.client.interceptors.request.use((config) => {
+      if (authToken) {
+        config.headers.Authorization = `Bearer ${authToken}`
+      }
+      return config
+    })
+
     this.client.interceptors.response.use(
       (response) => response,
-      (error: AxiosError<any>) => {
+      (error: AxiosError<unknown>) => {
         const message = error.response?.data?.detail || error.message
         return Promise.reject(new Error(message))
       }
@@ -79,6 +93,62 @@ class ApiClient {
 
   async getSkill(pluginSlug: string, skillSlug: string): Promise<Skill> {
     const response = await this.client.get<Skill>(`/plugins/${pluginSlug}/skills/${skillSlug}`)
+    return response.data
+  }
+
+  // Auth endpoints
+  async getAuthUrl(redirectUri: string) {
+    const response = await this.client.get<{ auth_url: string; state: string; nonce: string }>('/auth/login', {
+      params: { redirect_uri: redirectUri }
+    })
+    return response.data
+  }
+
+  async exchangeCode(code: string, state: string, nonce: string) {
+    const response = await this.client.post<{ access_token: string; token_type: string; expires_in: number; refresh_token?: string }>(
+      '/auth/callback',
+      { code, state, nonce }
+    )
+    return response.data
+  }
+
+  async logout(redirectUri: string) {
+    const response = await this.client.post<{ logout_url: string }>('/auth/logout', null, {
+      params: { redirect_uri: redirectUri }
+    })
+    return response.data
+  }
+
+  async getMe() {
+    const response = await this.client.get<{
+      id: string
+      email: string | null
+      username: string | null
+      full_name: string | null
+      roles: string[]
+      is_active: boolean
+      is_superuser: boolean
+    }>('/auth/me')
+    return response.data
+  }
+
+  async refreshToken() {
+    const response = await this.client.post<{ access_token: string; token_type: string; expires_in: number; refresh_token?: string }>('/auth/refresh')
+    return response.data
+  }
+
+  async testViewerAccess() {
+    const response = await this.client.get<{ message: string }>('/auth/test/viewer')
+    return response.data
+  }
+
+  async testOperatorAccess() {
+    const response = await this.client.get<{ message: string }>('/auth/test/operator')
+    return response.data
+  }
+
+  async testAdminAccess() {
+    const response = await this.client.get<{ message: string }>('/auth/test/admin')
     return response.data
   }
 }

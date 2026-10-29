@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "skeleton-and-core-workflow",
+  "current_feature": "auth-oidc-keycloak",
   "features": [
     {
       "id": "skeleton-and-core-workflow",
@@ -102,15 +102,25 @@
     {
       "id": "auth-oidc-keycloak",
       "title": "OIDC authentication with Keycloak",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Backend OIDC validation with PKCE",
         "Frontend login/logout flow",
         "Protected API endpoints",
         "Role-based access (viewer/operator/admin)"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/core/oidc.py",
+        "backend/app/core/auth.py",
+        "backend/app/core/security.py",
+        "backend/app/api/auth.py",
+        "backend/app/models/plugin.py (User model)",
+        "backend/app/main.py (auth router included)"
+      ],
+      "tests": [
+        "backend/tests/test_security.py (PKCE, token tests)",
+        "backend/tests/test_plugins_api.py (role-based access tests)"
+      ]
     },
     {
       "id": "llm-adapter-framework",

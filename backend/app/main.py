@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.core.config import get_settings
-from app.core.database import init_db, close_db
 from app.api.plugins import router as plugins_router
+from app.api.auth import router as auth_router
 
 
 settings = get_settings()
@@ -63,6 +63,7 @@ async def health_check():
 
 # Include routers
 app.include_router(plugins_router)
+app.include_router(auth_router)
 
 
 # Root endpoint

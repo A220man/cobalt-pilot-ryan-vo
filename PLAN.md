@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-skeleton-and-core-workflow
+auth-oidc-keycloak
 
 ## Roadmap
 
@@ -54,13 +54,17 @@ Tests: `backend/tests/test_models.py::test_skill_model_with_stability`, `backend
 
 ### auth-oidc-keycloak — OIDC authentication with Keycloak
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Backend OIDC validation with PKCE
 - Frontend login/logout flow
 - Protected API endpoints
 - Role-based access (viewer/operator/admin)
+
+Implementation: `backend/app/core/oidc.py`, `backend/app/core/auth.py`, `backend/app/core/security.py`, `backend/app/api/auth.py`, `backend/app/models/plugin.py (User model)`, `backend/app/main.py (auth router included)`
+
+Tests: `backend/tests/test_security.py (PKCE, token tests)`, `backend/tests/test_plugins_api.py (role-based access tests)`
 
 ### llm-adapter-framework — LLM adapter framework for AI/ML features
 
