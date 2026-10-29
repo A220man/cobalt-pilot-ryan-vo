@@ -85,8 +85,8 @@ async def test_plugin_query_service_get_stability_counts(test_db: AsyncSession):
     test_db.add(plugin)
     await test_db.flush()
 
-    for stab in [StabilityLevel.STABLE, StabilityLevel.STABLE, StabilityLevel.EXPERIMENTAL]:
-        skill = Skill(plugin_id=plugin.id, slug=f"skill-{stab.value}", name=f"Skill {stab.value}", stability=stab)
+    for i, stab in enumerate([StabilityLevel.STABLE, StabilityLevel.STABLE, StabilityLevel.EXPERIMENTAL]):
+        skill = Skill(plugin_id=plugin.id, slug=f"skill-{stab.value}-{i}", name=f"Skill {stab.value} {i}", stability=stab)
         test_db.add(skill)
     await test_db.flush()
 

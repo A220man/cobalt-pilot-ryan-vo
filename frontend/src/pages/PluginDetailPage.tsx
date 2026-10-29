@@ -207,7 +207,11 @@ function SkillCard({ skill }: { skill: any }) {
             <h4 className="font-semibold text-slate-900 dark:text-slate-100">{skill.name}</h4>
             <StabilityBadge stability={skill.stability} size="sm" />
           </div>
-          {skill.description && <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{truncate(skill.description, 300)}</p>}
+          {skill.markdown_content && (
+            <div className="mt-3 prose prose-sm dark:prose-invert max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{skill.markdown_content}</ReactMarkdown>
+            </div>
+          )}
           {skill.frontmatter && Object.keys(skill.frontmatter).length > 0 && (
             <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 font-mono">
               {JSON.stringify(skill.frontmatter, null, 2)}

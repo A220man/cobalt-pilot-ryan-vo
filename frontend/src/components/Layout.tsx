@@ -1,7 +1,21 @@
 // Layout component
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { Button } from './Button'
 
 export function Layout({ children }: { children?: React.ReactNode }) {
+  const { user, isAuthenticated, isLoading, login, logout, hasRole } = useAuth()
+  const location = useLocation()
+  const isAuthPage = location.pathname.startsWith('/auth/')
+
+  if (isLoading && !isAuthPage) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-600 border-t-transparent"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-40">
@@ -30,6 +44,30 @@ export function Layout({ children }: { children?: React.ReactNode }) {
               >
                 GitHub
               </a>
+              {isAuthenticated ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    {user?.full_name || user?.username || user?.email || 'User'}
+                  </span>
+                  {hasRole('admin') && (
+                    <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full">
+                      Admin
+                    </span>
+                  )}
+                  {hasRole('operator') && !hasRole('admin') && (
+                    <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full">
+                      Operator
+                    </span>
+                  )}
+                  <Button variant="ghost" size="sm" onClick={() => logout(window.location.origin)}>
+                    Sign out
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="primary" size="sm" onClick={() => login(window.location.href)}>
+                  Sign in
+                </Button>
+              )}
             </nav>
           </div>
         </div>
