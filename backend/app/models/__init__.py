@@ -1,4 +1,3 @@
-# Models package init
 from app.models.plugin import (
     Plugin,
     Skill,
@@ -7,6 +6,16 @@ from app.models.plugin import (
     SyncLog,
     PluginType,
     StabilityLevel,
+    User,
+    UserRole,
+)
+from app.models.llm import (
+    LLMProvider,
+    LLMExplanationRequest,
+    LLMExplanationResponse,
+    LLMConfig,
+    LLMExplanationLog,
+    create_llm_adapter,
 )
 
 __all__ = [
@@ -17,4 +26,12 @@ __all__ = [
     "SyncLog",
     "PluginType",
     "StabilityLevel",
+    "User",
+    "UserRole",
+    "LLMProvider",
+    "LLMExplanationRequest",
+    "LLMExplanationResponse",
+    "LLMConfig",
+    "LLMExplanationLog",
+    "create_llm_adapter",
 ]

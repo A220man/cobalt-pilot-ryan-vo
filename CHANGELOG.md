@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.3.0 — 2026-11-02
+
+### Added
+- OIDC authentication with Keycloak (PKCE flow)
+- Backend JWT token validation and user management
+- Frontend login/logout flow with AuthContext
+- Protected API endpoints with role-based access control (viewer/operator/admin)
+- Role-based access tests for plugins API
+- Test fixtures for authenticated users
+
+### Changed
+- Plugins API endpoints now require authentication
+- Sync endpoint requires operator role
+- Read endpoints require viewer role
+
+### Fixed
+- Auth dependency now fetches user from database
+- Test fixtures create test users in database
+
 ## 1.2.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

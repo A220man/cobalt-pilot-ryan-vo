@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional, List
 
 from app.core.database import get_db
+from app.core.auth import get_current_active_user, require_viewer, require_operator, require_admin
 from app.services.plugin_query import PluginQueryService
 from app.services.plugin_sync import PluginSyncService
 from app.api.schemas import (
@@ -32,8 +33,9 @@ async def list_plugins(
     search: Optional[str] = Query(None),
     plugin_type: Optional[PluginType] = Query(None),
     db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_viewer),
 ):
-    """List plugins with pagination and filtering."""
+    """List plugins with pagination and filtering. Requires viewer role."""
     service = PluginQueryService(db)
     result = await service.list_plugins(page=page, page_size=page_size, search=search, plugin_type=plugin_type)
 
@@ -66,16 +68,22 @@ async def list_plugins(
 
 
 @router.get("/stats", response_model=PluginStatsResponse)
-async def get_plugin_stats(db: AsyncSession = Depends(get_db)):
-    """Get overall plugin statistics."""
+async def get_plugin_stats(
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_viewer),
+):
+    """Get overall plugin statistics. Requires viewer role."""
     service = PluginQueryService(db)
     stats = await service.get_plugin_stats()
     return PluginStatsResponse(**stats)
 
 
 @router.post("/sync", response_model=SyncLogResponse, status_code=status.HTTP_202_ACCEPTED)
-async def sync_plugins(db: AsyncSession = Depends(get_db)):
-    """Trigger a sync from the reference repository."""
+async def sync_plugins(
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_operator),
+):
+    """Trigger a sync from the reference repository. Requires operator role."""
     service = PluginSyncService(db)
     log = await service.sync_all()
     return SyncLogResponse(
@@ -92,8 +100,12 @@ async def sync_plugins(db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/{slug}", response_model=PluginDetailResponse)
-async def get_plugin(slug: str, db: AsyncSession = Depends(get_db)):
-    """Get a plugin by slug with all skills, commands, and connectors."""
+async def get_plugin(
+    slug: str,
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_viewer),
+):
+    """Get a plugin by slug with all skills, commands, and connectors. Requires viewer role."""
     service = PluginQueryService(db)
     plugin = await service.get_plugin(slug)
 
@@ -173,8 +185,9 @@ async def list_plugin_skills(
     stability: Optional[StabilityLevel] = Query(None),
     search: Optional[str] = Query(None),
     db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_viewer),
 ):
-    """List skills for a plugin with filtering."""
+    """List skills for a plugin with filtering. Requires viewer role."""
     service = PluginQueryService(db)
     result = await service.list_skills(
         plugin_slug=plugin_slug,
@@ -212,8 +225,13 @@ async def list_plugin_skills(
 
 
 @router.get("/{plugin_slug}/skills/{skill_slug}", response_model=SkillResponse)
-async def get_skill(plugin_slug: str, skill_slug: str, db: AsyncSession = Depends(get_db)):
-    """Get a specific skill."""
+async def get_skill(
+    plugin_slug: str,
+    skill_slug: str,
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(require_viewer),
+):
+    """Get a specific skill. Requires viewer role."""
     service = PluginQueryService(db)
     skill = await service.get_skill(plugin_slug, skill_slug)
 

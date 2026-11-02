@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-auth-oidc-keycloak
+llm-adapter-framework
 
 ## Roadmap
 
@@ -54,7 +54,7 @@ Tests: `backend/tests/test_models.py::test_skill_model_with_stability`, `backend
 
 ### auth-oidc-keycloak — OIDC authentication with Keycloak
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Backend OIDC validation with PKCE
@@ -68,10 +68,12 @@ Tests: `backend/tests/test_security.py (PKCE, token tests)`, `backend/tests/test
 
 ### llm-adapter-framework — LLM adapter framework for AI/ML features
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - OpenAI-compatible, Anthropic, Gemini, Ollama adapters
 - Configurable provider/model/endpoint
 - Opt-in LLM explanations labeled advisory
+
+Implementation: `backend/app/models/llm.py`, `backend/app/services/llm_service.py`, `backend/app/api/llm.py`, `backend/app/core/config.py`, `frontend/src/components/LLMExplanation.tsx`, `frontend/src/types/index.ts`, `frontend/src/api/client.ts`, `frontend/src/pages/PluginDetailPage.tsx`
 

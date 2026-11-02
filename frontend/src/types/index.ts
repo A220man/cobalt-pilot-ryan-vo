@@ -90,8 +90,39 @@ export interface PluginStats {
   stability_distribution: Record<string, number>
 }
 
-export interface HealthResponse {
-  status: string
-  version: string
-  timestamp: string
+
+export type LLMProvider = 'openai-compatible' | 'anthropic' | 'gemini' | 'ollama'
+
+export interface LLMExplanationRequest {
+  skill_slug: string
+  plugin_slug: string
+  question?: string
+  context?: string
+}
+
+export interface LLMExplanationResponse {
+  explanation: string
+  provider: string
+  model: string
+  advisory: boolean
+  disclaimer: string
+}
+
+export interface LLMConfig {
+  provider: LLMProvider
+  model: string
+  base_url?: string
+  has_api_key: boolean
+  timeout_seconds: number
+}
+
+export interface LLMExplanationLog {
+  id: number
+  skill_slug: string
+  plugin_slug: string
+  provider: string
+  model: string
+  question?: string
+  response_preview?: string
+  created_at: string
 }

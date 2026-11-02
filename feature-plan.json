@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "auth-oidc-keycloak",
+  "current_feature": "llm-adapter-framework",
   "features": [
     {
       "id": "skeleton-and-core-workflow",
@@ -102,7 +102,7 @@
     {
       "id": "auth-oidc-keycloak",
       "title": "OIDC authentication with Keycloak",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Backend OIDC validation with PKCE",
         "Frontend login/logout flow",
@@ -125,13 +125,22 @@
     {
       "id": "llm-adapter-framework",
       "title": "LLM adapter framework for AI/ML features",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "OpenAI-compatible, Anthropic, Gemini, Ollama adapters",
         "Configurable provider/model/endpoint",
         "Opt-in LLM explanations labeled advisory"
       ],
-      "implementation": [],
+      "implementation": [
+        "backend/app/models/llm.py",
+        "backend/app/services/llm_service.py",
+        "backend/app/api/llm.py",
+        "backend/app/core/config.py",
+        "frontend/src/components/LLMExplanation.tsx",
+        "frontend/src/types/index.ts",
+        "frontend/src/api/client.ts",
+        "frontend/src/pages/PluginDetailPage.tsx"
+      ],
       "tests": []
     }
   ]

@@ -2,11 +2,11 @@
 
 Work in progress; not a release-readiness or successful QA claim.
 
-Version: 1.2.0
+Version: 1.3.0
 
 ## Outstanding findings
 
-Repair the existing feature plan format while preserving its roadmap: Expecting ',' delimiter: line 125 column 5 (char 5018)
+No completed independent review for this checkpoint.
 
 ## Next round
 
