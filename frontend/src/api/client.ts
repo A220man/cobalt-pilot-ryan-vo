@@ -151,6 +151,22 @@ class ApiClient {
     const response = await this.client.get<{ message: string }>('/auth/test/admin')
     return response.data
   }
+
+  // LLM endpoints
+  async generateExplanation(request: LLMExplanationRequest): Promise<LLMExplanationResponse> {
+    return this.client.post('/llm/explain', request).then(r => r.data)
+  }
+
+  async getExplanationLogs(skillSlug?: string, limit?: number): Promise<LLMExplanationLog[]> {
+    const params = new URLSearchParams()
+    if (skillSlug) params.set('skill_slug', skillSlug)
+    if (limit) params.set('limit', String(limit))
+    return this.client.get(`/llm/logs?${params}`).then(r => r.data)
+  }
+
+  async getLLMConfig(): Promise<LLMConfig> {
+    return this.client.get('/llm/config').then(r => r.data)
+  }
 }
 
 export const api = new ApiClient()

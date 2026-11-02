@@ -1,4 +1,5 @@
-// PluginDetailPage
+import { useState } from 'react'
+import { LLMExplanation } from '../components/LLMExplanation'
 import { useParams, Link } from 'react-router-dom'
 import { usePlugin, usePluginSkills } from '../hooks/usePlugins'
 import { StabilityBadge } from '../components'
@@ -217,6 +218,12 @@ function SkillCard({ skill }: { skill: any }) {
               {JSON.stringify(skill.frontmatter, null, 2)}
             </div>
           )}
+          <LLMExplanation
+            skillSlug={skill.slug}
+            pluginSlug={skill.plugin_slug || ''}
+            skillName={skill.name}
+            skillDescription={skill.description}
+          />
         </div>
       </div>
     </div>
@@ -270,5 +277,3 @@ function ConnectorCard({ connector }: { connector: any }) {
     </div>
   )
 }
-
-import { useState } from 'react'
