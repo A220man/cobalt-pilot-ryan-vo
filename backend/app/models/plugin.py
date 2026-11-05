@@ -20,6 +20,12 @@ class StabilityLevel(str, PyEnum):
     DEPRECATED = "deprecated"
 
 
+class UserRole(str, PyEnum):
+    VIEWER = "viewer"
+    OPERATOR = "operator"
+    ADMIN = "admin"
+
+
 class Plugin(Base):
     __tablename__ = "plugins"
 

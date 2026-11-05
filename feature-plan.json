@@ -38,10 +38,7 @@
         "frontend/src/api/client.ts",
         "frontend/src/hooks/usePlugins.ts",
         "frontend/src/types/index.ts",
-        "compose.yaml",
-        "backend/Dockerfile",
-        "frontend/Dockerfile",
-        ".github/workflows/ci.yml"
+        "compose.yaml"
       ],
       "tests": [
         "backend/tests/test_health.py",
@@ -125,7 +122,7 @@
     {
       "id": "llm-adapter-framework",
       "title": "LLM adapter framework for AI/ML features",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "OpenAI-compatible, Anthropic, Gemini, Ollama adapters",
         "Configurable provider/model/endpoint",
@@ -141,7 +138,10 @@
         "frontend/src/api/client.ts",
         "frontend/src/pages/PluginDetailPage.tsx"
       ],
-      "tests": []
+      "tests": [
+        "backend/tests/test_llm_service.py",
+        "backend/tests/test_config.py (LLM config tests)"
+      ]
     }
   ]
 }

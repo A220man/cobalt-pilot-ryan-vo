@@ -7,12 +7,13 @@ from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field
 
 
+from app.core.database import Base
+
 class LLMProvider(str, PyEnum):
     OPENAI_COMPATIBLE = "openai-compatible"
     ANTHROPIC = "anthropic"
     GEMINI = "gemini"
     OLLAMA = "ollama"
-
 
 class LLMExplanationRequest(BaseModel):
     """Request for LLM explanation of a skill."""

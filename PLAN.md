@@ -22,7 +22,7 @@ Acceptance:
 - Frontend tests pass (>=3 meaningful tests)
 - CI workflow configured
 
-Implementation: `backend/app/main.py`, `backend/app/api/plugins.py`, `backend/app/services/plugin_sync.py`, `backend/app/services/plugin_query.py`, `backend/app/models/plugin.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/app/core/security.py`, `frontend/src/App.tsx`, `frontend/src/main.tsx`, `frontend/src/pages/PluginListPage.tsx`, `frontend/src/pages/PluginDetailPage.tsx`, `frontend/src/components/PluginCard.tsx`, `frontend/src/components/SearchInput.tsx`, `frontend/src/components/StabilityBadge.tsx`, `frontend/src/components/SyncButton.tsx`, `frontend/src/components/Button.tsx`, `frontend/src/components/Layout.tsx`, `frontend/src/api/client.ts`, `frontend/src/hooks/usePlugins.ts`, `frontend/src/types/index.ts`, `compose.yaml`, `backend/Dockerfile`, `frontend/Dockerfile`, `.github/workflows/ci.yml`
+Implementation: `backend/app/main.py`, `backend/app/api/plugins.py`, `backend/app/services/plugin_sync.py`, `backend/app/services/plugin_query.py`, `backend/app/models/plugin.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/app/core/security.py`, `frontend/src/App.tsx`, `frontend/src/main.tsx`, `frontend/src/pages/PluginListPage.tsx`, `frontend/src/pages/PluginDetailPage.tsx`, `frontend/src/components/PluginCard.tsx`, `frontend/src/components/SearchInput.tsx`, `frontend/src/components/StabilityBadge.tsx`, `frontend/src/components/SyncButton.tsx`, `frontend/src/components/Button.tsx`, `frontend/src/components/Layout.tsx`, `frontend/src/api/client.ts`, `frontend/src/hooks/usePlugins.ts`, `frontend/src/types/index.ts`, `compose.yaml`
 
 Tests: `backend/tests/test_health.py`, `backend/tests/test_plugins_api.py`, `backend/tests/test_models.py`, `backend/tests/test_services.py`, `backend/tests/test_security.py`, `backend/tests/test_config.py`, `frontend/src/__tests__/utils.test.tsx`, `frontend/src/__tests__/components.test.tsx`, `frontend/src/__tests__/hooks.test.tsx`
 
@@ -68,7 +68,7 @@ Tests: `backend/tests/test_security.py (PKCE, token tests)`, `backend/tests/test
 
 ### llm-adapter-framework — LLM adapter framework for AI/ML features
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - OpenAI-compatible, Anthropic, Gemini, Ollama adapters
@@ -76,4 +76,6 @@ Acceptance:
 - Opt-in LLM explanations labeled advisory
 
 Implementation: `backend/app/models/llm.py`, `backend/app/services/llm_service.py`, `backend/app/api/llm.py`, `backend/app/core/config.py`, `frontend/src/components/LLMExplanation.tsx`, `frontend/src/types/index.ts`, `frontend/src/api/client.ts`, `frontend/src/pages/PluginDetailPage.tsx`
+
+Tests: `backend/tests/test_llm_service.py`, `backend/tests/test_config.py (LLM config tests)`
 
