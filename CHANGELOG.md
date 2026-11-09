@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.5.0 — work-in-progress checkpoint
+
+### Fixed
+- Frontend Docker healthcheck: added `/health` endpoint to satisfy Docker healthcheck
+- Excluded `.vite/` directory from git to prevent test artifacts being published
+
+### Verified
+- All 57 backend tests pass
+- All 40 frontend tests pass
 ## 1.4.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

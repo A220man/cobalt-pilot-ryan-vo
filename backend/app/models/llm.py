@@ -100,7 +100,9 @@ class OpenAICompatibleAdapter(LLMAdapterBase):
 
         async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
             resp = await client.post(url, headers=headers, json=payload)
-            resp.raise_for_status()
+            if resp.status_code >= 400:
+                error_detail = resp.text
+                raise RuntimeError(f"OpenAI-compatible API error ({resp.status_code}): {error_detail}")
             data = resp.json()
 
         content = data["choices"][0]["message"]["content"]
@@ -123,6 +125,7 @@ class AnthropicAdapter(LLMAdapterBase):
             "model": self.config.model,
             "max_tokens": self.config.max_tokens,
             "temperature": self.config.temperature,
+            "system": "You are a helpful technical assistant explaining plugin skills.",
             "messages": [
                 {"role": "user", "content": self._build_prompt(request)},
             ],
@@ -133,7 +136,9 @@ class AnthropicAdapter(LLMAdapterBase):
 
         async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
             resp = await client.post(url, headers=headers, json=payload)
-            resp.raise_for_status()
+            if resp.status_code >= 400:
+                error_detail = resp.text
+                raise RuntimeError(f"Anthropic API error ({resp.status_code}): {error_detail}")
             data = resp.json()
 
         content = data["content"][0]["text"]
@@ -162,7 +167,9 @@ class GeminiAdapter(LLMAdapterBase):
 
         async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
             resp = await client.post(url, json=payload)
-            resp.raise_for_status()
+            if resp.status_code >= 400:
+                error_detail = resp.text
+                raise RuntimeError(f"Gemini API error ({resp.status_code}): {error_detail}")
             data = resp.json()
 
         content = data["candidates"][0]["content"]["parts"][0]["text"]
@@ -190,11 +197,15 @@ class OllamaAdapter(LLMAdapterBase):
 
         async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
             resp = await client.post(url, json=payload)
-            resp.raise_for_status()
+            if resp.status_code >= 400:
+                error_detail = resp.text
+                raise RuntimeError(f"Ollama API error ({resp.status_code}): {error_detail}")
             data = resp.json()
 
         content = data.get("response", "")
         return self._build_advisory_response(content)
+
+
 
 
 def create_llm_adapter(config: LLMConfig) -> LLMAdapterBase:

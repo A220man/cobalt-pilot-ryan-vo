@@ -140,8 +140,10 @@
       ],
       "tests": [
         "backend/tests/test_llm_service.py",
-        "backend/tests/test_config.py (LLM config tests)"
+        "backend/tests/test_config.py (LLM config tests)",
+        "backend/tests/test_llm_api.py"
       ]
     }
   ]
 }
+
