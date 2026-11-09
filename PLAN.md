@@ -77,5 +77,5 @@ Acceptance:
 
 Implementation: `backend/app/models/llm.py`, `backend/app/services/llm_service.py`, `backend/app/api/llm.py`, `backend/app/core/config.py`, `frontend/src/components/LLMExplanation.tsx`, `frontend/src/types/index.ts`, `frontend/src/api/client.ts`, `frontend/src/pages/PluginDetailPage.tsx`
 
-Tests: `backend/tests/test_llm_service.py`, `backend/tests/test_config.py (LLM config tests)`
+Tests: `backend/tests/test_llm_service.py`, `backend/tests/test_config.py (LLM config tests)`, `backend/tests/test_llm_api.py`
 
