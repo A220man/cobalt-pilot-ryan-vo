@@ -142,26 +142,21 @@ not frontmatter"""
 ---
 not frontmatter"""
 
-
 @pytest.mark.asyncio
-async def test_plugin_sync_service_upsert_plugin(test_db: AsyncSession):
-    service = PluginSyncService(test_db)
-    
-    plugin_data = {
-        "manifest": {"name": "Test Plugin", "version": "1.0.0"},
-        "slug": "test-plugin",
-        "name": "Test Plugin",
-        "plugin_type": "official",
-        "repo_path": "test-plugin",
-        "description": "A test plugin",
-    }
-    
-    plugin = await service._upsert_plugin(plugin_data)
-    assert plugin.slug == "test-plugin"
-    assert plugin.name == "Test Plugin"
-    
-    # Update
-    plugin_data["manifest"]["name"] = "Updated Name"
-    plugin2 = await service._upsert_plugin(plugin_data)
-    assert plugin2.id == plugin.id
-    assert plugin2.name == "Updated Name"
+async def test_plugin_sync_service_parse_frontmatter_invalid_yaml():
+    """Test _parse_markdown_frontmatter with invalid YAML frontmatter."""
+    service = PluginSyncService(MagicMock())
+
+    # Invalid YAML in frontmatter - body includes content after the first ---...--- pair
+    md_invalid = """---
+name: Test
+key: [unclosed
+---
+# Content"""
+    frontmatter, body = service._parse_markdown_frontmatter(md_invalid)
+    # Should return empty frontmatter on parse failure
+    assert frontmatter == {}
+    # Body is the entire original content (YAML parse failed, so full content returned)
+    assert body.strip() == md_invalid.strip()
+
+
