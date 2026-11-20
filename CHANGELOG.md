@@ -1,6 +1,17 @@
 # Changelog
 
-## 1.6.0 — work-in-progress checkpoint
+## 1.7.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.6.1 — work-in-progress checkpoint
+
+### Fixed
+- Improved _parse_markdown_frontmatter robustness for invalid YAML edge cases
+
+### Verified
+- All 57 backend tests pass (including new invalid YAML edge case test)
+- All 40 frontend tests pass
 
 Partial code published for continued development. Known issues: STATUS.md.
 
