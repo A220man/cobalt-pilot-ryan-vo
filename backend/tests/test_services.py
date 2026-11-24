@@ -160,3 +160,19 @@ key: [unclosed
     assert body.strip() == md_invalid.strip()
 
 
+
+@pytest.mark.asyncio
+async def test_plugin_sync_service_parse_frontmatter_valid_empty_body():
+    """Test _parse_markdown_frontmatter with valid YAML but empty body after ---..."""
+    service = PluginSyncService(MagicMock())
+
+    # Valid YAML frontmatter with empty body
+    md_empty_body = """---
+name: Test Plugin
+---
+"""
+    frontmatter, body = service._parse_markdown_frontmatter(md_empty_body)
+    # Should parse the YAML frontmatter successfully
+    assert frontmatter == {"name": "Test Plugin"}
+    # Body is empty after the closing ---
+    assert body == ""
