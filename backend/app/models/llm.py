@@ -71,6 +71,7 @@ Provide a clear, concise explanation of this skill, its purpose, and how it migh
             provider=self.config.provider.value,
             model=self.config.model,
             advisory=True,
+            disclaimer="This explanation is AI-generated and advisory only. Verify against official documentation.",
         )
 
 

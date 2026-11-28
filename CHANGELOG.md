@@ -1,8 +1,14 @@
 # Changelog
 
+## 1.9.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.8.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+### Fixed
+- LLM adapter framework: disclaimer field now explicitly set in _build_advisory_response method (backend/app/models/llm.py).
 
 ## 1.7.0 — work-in-progress checkpoint
 
